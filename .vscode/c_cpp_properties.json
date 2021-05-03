@@ -1,0 +1,46 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/home/canborda/catkin_ws/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/canborda/catkin_ws/src/agribot/agribot_local_planner/include/**",
+        "/home/canborda/catkin_ws/src/agribot/agribot_navigation/include/**",
+        "/home/canborda/catkin_ws/src/ar_track_alvar/ar_track_alvar/include/**",
+        "/home/canborda/catkin_ws/src/kobuki/kobuki_auto_docking/include/**",
+        "/home/canborda/catkin_ws/src/kobuki/kobuki_bumper2pc/include/**",
+        "/home/canborda/catkin_ws/src/kobuki/kobuki_controller_tutorial/include/**",
+        "/home/canborda/catkin_ws/src/kobuki_core/kobuki_dock_drive/include/**",
+        "/home/canborda/catkin_ws/src/kobuki_core/kobuki_driver/include/**",
+        "/home/canborda/catkin_ws/src/kobuki_core/kobuki_ftdi/include/**",
+        "/home/canborda/catkin_ws/src/kobuki_desktop/kobuki_gazebo_plugins/include/**",
+        "/home/canborda/catkin_ws/src/kobuki/kobuki_keyop/include/**",
+        "/home/canborda/catkin_ws/src/kobuki/kobuki_node/include/**",
+        "/home/canborda/catkin_ws/src/kobuki/kobuki_random_walker/include/**",
+        "/home/canborda/catkin_ws/src/kobuki/kobuki_safety_controller/include/**",
+        "/home/canborda/catkin_ws/src/learning_tf2/include/**",
+        "/home/canborda/catkin_ws/src/yujin_ocs/yocs_ar_marker_tracking/include/**",
+        "/home/canborda/catkin_ws/src/yujin_ocs/yocs_ar_pair_tracking/include/**",
+        "/home/canborda/catkin_ws/src/yujin_ocs/yocs_cmd_vel_mux/include/**",
+        "/home/canborda/catkin_ws/src/yujin_ocs/yocs_controllers/include/**",
+        "/home/canborda/catkin_ws/src/yujin_ocs/yocs_diff_drive_pose_controller/include/**",
+        "/home/canborda/catkin_ws/src/yujin_ocs/yocs_keyop/include/**",
+        "/home/canborda/catkin_ws/src/yujin_ocs/yocs_math_toolkit/include/**",
+        "/home/canborda/catkin_ws/src/yujin_ocs/yocs_navi_toolkit/include/**",
+        "/home/canborda/catkin_ws/src/yujin_ocs/yocs_navigator/include/**",
+        "/home/canborda/catkin_ws/src/yujin_ocs/yocs_safety_controller/include/**",
+        "/home/canborda/catkin_ws/src/yujin_ocs/yocs_velocity_smoother/include/**",
+        "/home/canborda/catkin_ws/src/yujin_ocs/yocs_virtual_sensor/include/**",
+        "/home/canborda/catkin_ws/src/yujin_ocs/yocs_waypoint_provider/include/**",
+        "/home/canborda/catkin_ws/src/yujin_ocs/yocs_waypoints_navi/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS"
+    }
+  ],
+  "version": 4
+}
