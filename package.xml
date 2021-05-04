@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>kobuki_kinematics</name>
+  <name>kobuki_control</name>
   <version>0.0.0</version>
-  <description>The kobuki_kinematics package</description>
+  <description>The kobuki_control package</description>
 
   <maintainer email="canborda@unal.edu.co">Camilo Andres Borda Gil</maintainer>
   <maintainer email="dafdiazco@unal.edu.co">Daniel Fernando Diaz Coy</maintainer>
