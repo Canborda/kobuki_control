@@ -31,7 +31,7 @@
     <node 
         pkg="gazebo_ros" 
         type="spawn_model" 
-        name="spawn_test_robot"  
+        name="spawn_test_robot"
         respawn="false"
         ns="$(arg robot_name)"
         args="-x $(arg x) -y $(arg y) -z $(arg z)
@@ -39,6 +39,22 @@
               -urdf 
               -param robot_description
               -model test_robot"
+    />
+    
+    <!-- CONTROLLER MANAGER -->
+    
+    <rosparam 
+        file="$(find kobuki_control)/config/test_robot_controller.yaml" 
+        command="load"
+    />
+    
+    <node
+        name="Robot_controller"
+        pkg="controller_manager"
+        type="spawner"
+        respawn="false"
+        output="screen"
+        args="joint_state_controller wheel_left_ctrl wheel_right_ctrl"
     />
 
 </launch>

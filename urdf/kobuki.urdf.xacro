@@ -66,6 +66,7 @@
       <origin xyz="0.00 ${0.23/2} 0.0250" rpy="${-M_PI/2} 0 0"/>
       <axis xyz="0 0 1"/>
     </joint>
+
     <link name="wheel_left_link">
       <visual>
         <geometry>
@@ -94,6 +95,7 @@
       <origin xyz="0.00 -${0.23/2} 0.0250" rpy="${-M_PI/2} 0 0"/>
       <axis xyz="0 0 1"/>
     </joint>
+
     <link name="wheel_right_link">
       <visual>
         <geometry>
@@ -121,6 +123,7 @@
       <child link="caster_front_link"/>
       <origin xyz="0.115 0.0 0.007" rpy="${-M_PI/2} 0 0"/>
     </joint>
+
     <link name="caster_front_link">
       <collision>
         <geometry>
@@ -142,6 +145,7 @@
       <child link="caster_back_link"/>
       <origin xyz="-0.135 0.0 0.009" rpy="${-M_PI/2} 0 0"/>
     </joint>
+
     <link name="caster_back_link">
       <collision>
         <geometry>
@@ -159,6 +163,7 @@
     </link>
 
     <!-- Kobuki's sensors -->
+
     <joint name="gyro_joint" type="fixed">
       <axis xyz="0 1 0"/>
       <origin xyz="0.056 0.062 0.0202" rpy="0 0 0"/>
@@ -222,6 +227,14 @@
 
     <!-- Kobuki Gazebo simulation details -->
     <xacro:kobuki_sim/>
+
+    <!-- GAZEBO PLUG-IN -->
+
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <robotNamespace>/</robotNamespace>
+        </plugin>
+    </gazebo>
 
   </xacro:macro>
 </robot>

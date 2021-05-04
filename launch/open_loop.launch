@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <!-- Include general spawn -->
+    <include file="$(find kobuki_control)/launch/spawn_robot.launch"/>
+
+    <!-- Open-Loop Nodes -->
+
+    <node
+        name="keyop_node"
+        pkg="kobuki_control"
+        type="kobuki_teleop.py"
+        output="screen"
+    />
+
+    <node
+        name="model_node"
+        pkg="kobuki_control"
+        type="kobuki_model.py"
+        output="screen"
+    />
+
+</launch>

@@ -1,1 +1,0 @@
-# Lee las posiciones del broadcaster
