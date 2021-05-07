@@ -38,7 +38,7 @@
               -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)
               -urdf 
               -param robot_description
-              -model test_robot"
+              -model my_kobuki"
     />
     
     <!-- CONTROLLER MANAGER -->
