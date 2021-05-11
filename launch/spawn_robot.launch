@@ -44,7 +44,7 @@
     <!-- CONTROLLER MANAGER -->
     
     <rosparam 
-        file="$(find kobuki_control)/config/test_robot_controller.yaml" 
+        file="$(find kobuki_control)/config/robot_controller.yaml" 
         command="load"
     />
     
@@ -55,6 +55,15 @@
         respawn="false"
         output="screen"
         args="joint_state_controller wheel_left_ctrl wheel_right_ctrl"
+    />
+
+    <!-- Information Node -->
+
+    <node
+        name="info_node"
+        pkg="kobuki_control"
+        type="info_subscriber.py"
+        output="screen"
     />
 
 </launch>

@@ -35,11 +35,10 @@ class pose_subscriber:
         # Publish (x,y,ϴ)
         self.pub_pose.publish(pose_msg)
 
-        print('\n','-'*50,'\n')
-        print(pose_msg)
+        #print(pose_msg)
 
 if __name__ == '__main__':
     rospy.init_node("pose_node", anonymous=True)
-    rospy.loginfo('>> STATUS: Initialize \"pose\" node')
+    rospy.loginfo('>> POSE NODE SAYS: node initialized.')
     pose_subscriber()
     rospy.spin()

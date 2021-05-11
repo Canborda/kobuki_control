@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 
 import rospy
+from geometry_msgs.msg import Twist
 from geometry_msgs.msg import Pose2D
-from std_msgs.msg import Bool
+from std_msgs.msg import Bool, String
 
 import numpy as np
 
@@ -10,9 +11,19 @@ class controller:
 
     def __init__(self):
 
-        self.MIN_ERROR = 0.1
+        # PARAMS
+        self.MIN_ERROR = 0.1        # Minimum accepted error to change reference
+        self.MIN_STOP = 0.01        # Minimum accepted error to stop robot
+        self.V_C = 0.3              # Linear cruise velocity (m/s)
+        self.W_C = 60               # Angular cruise velocity (deg/s)
 
         self.reference = Pose2D()
+
+        # Initial reference
+        initial_pose = Pose2D()
+        initial_pose.x = -1.0
+        initial_pose.y = 0.0
+        self.reference = initial_pose
 
         # Subscribers
         self.sub_ref = rospy.Subscriber("/current_reference_topic", Pose2D, self.change_reference, queue_size=10)
@@ -20,36 +31,54 @@ class controller:
 
         # Publisher
         self.pub_flag = rospy.Publisher("/next_pose_flag_topic", Bool, queue_size=10)
-        #TODO cmd_vel publisher
+        self.pub_velocity = rospy.Publisher("/velocity_topic", Twist, queue_size=10)
+        self.pub_error = rospy.Publisher("/error_topic", String, queue_size=10)
+        
+        self.info = rospy.Publisher("/info_topic", String, queue_size=20)
 
 
     def change_reference(self, new_ref):
         self.reference = new_ref
-        print('New ref:')
-        print(self.reference)
 
     def get_error(self, pose):
-        # error_x = self.reference.x - pose.x
-        # error_y = self.reference.y - pose.y
-        # error_rot = self.reference.theta - pose.theta
 
-        # error_pos = np.sqrt(error_x**2 + error_y**2)
+        # Calculate errors
+        error = Pose2D()
+        error.x = pose.x - self.reference.x
+        error.y = pose.y - self.reference.y
 
-        # # Ask for new reference
-        # if error_pos < self.MIN_ERROR:
-        #     self.pub_flag.publish(True)
-        e = input('Enter key:')
-        if e == 'e':
-            print('-'*50)
-            print('Ref reached:')
-            print(self.reference)
+        self.reference.theta = np.arctan2(-error.y,-error.x)*180/np.pi
+        error.theta = self.reference.theta - pose.theta
+        if error.theta > 180: error.theta -= 360
+        if error.theta < -180: error.theta += 360
+
+        # Linear controller
+        error_pos = np.sqrt(error.x**2 + error.y**2)
+        Vx = 2*self.V_C / ( 1 + np.exp(-20*error_pos) ) - self.V_C
+
+        # Angular controller
+        Wz = 2*self.W_C / ( 1 + np.exp(-error.theta/5) ) - self.W_C
+        
+        # Ask for new reference
+        if error_pos < self.MIN_ERROR:
             self.pub_flag.publish(True)
-            
 
+        # Stop
+        if error_pos < self.MIN_STOP:
+            Vx = 0.0
+            Wz = 0.0
 
+        # Send message
+        msg = Twist()
+        msg.linear.x = Vx
+        msg.angular.z = Wz
+        self.pub_velocity.publish(msg)
+
+        self.pub_error.publish('error_x: {:.5f} error_y: {:.5f} error_pos: {:.5f} error_theta: {:.5f}'
+        .format(error.x, error.y, error_pos, error.theta))
 
 if __name__ == '__main__':
     rospy.init_node("kobuki_controller_node", anonymous=True)
-    rospy.loginfo('>> STATUS: Initialize \"kobuki_controller\" node')
+    rospy.loginfo('>> KOBUKI CONTROLLER SAYS: node initialized.')
     controller()
     rospy.spin()

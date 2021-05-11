@@ -1,5 +1,24 @@
 <?xml version="1.0"?>
 
 <launch>
-    <include file="$(find kobuki_description)/launch/view_model.launch"/>
+
+    <!-- Arg to change robot name and be able to spawn multiple robots-->
+    <arg name="robot_name" default="/"/>
+
+    <!-- Load model -->
+    <arg name="urdf_model" default="$(find kobuki_control)/urdf/kobuki_view.urdf"/>
+
+    <!-- Parse model -->
+    <param name="robot_description" command="$(find xacro)/xacro $(arg urdf_model)"/>
+    
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+        <param name="publish_frequency" type="double" value="5.0"/>
+    </node>
+    
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <param name="use_gui" value="true"/>
+    </node>
+    
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find kobuki_control)/rviz/model.rviz"/>
+
 </launch>

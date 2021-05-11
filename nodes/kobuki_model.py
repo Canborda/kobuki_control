@@ -12,7 +12,7 @@ class velocity_publisher:
         
         # Robot model parameters
 
-        r = 0.076/2
+        r = 0.035
         l = 0.23/2
 
         left_alpha = np.pi/2
@@ -30,12 +30,6 @@ class velocity_publisher:
 
         self.Jacobian = np.matmul(np.linalg.pinv(J2), J1)
 
-        print('J1:')
-        print(J1)
-
-        print('J2:')
-        print(J2)
-
         # Subscriber
         self.sub_cmdvel = rospy.Subscriber("/velocity_topic", Twist, self.cmd_velocity, queue_size=10)
 
@@ -45,7 +39,6 @@ class velocity_publisher:
 
     def cmd_velocity(self, cmd_vel):
 
-        print('checkpoint')
         # Inverse kinematics
         result = np.matmul(self.Jacobian, [cmd_vel.linear.x, cmd_vel.linear.y, cmd_vel.angular.z*np.pi/180])
         
@@ -59,23 +52,8 @@ class velocity_publisher:
         msgFloat.data = result[1]
         self.pub_right_wheel.publish(msgFloat)
 
-        # Print UI
-        print(chr(27)+"[2J")
-        print('-'*70)
-        print('For Vx++ use w \t\t For ω++ use a \t\t For STOP use x')
-        print('For Vx-- use s \t\t For ω-- use d \t\t Press ESC to quit')
-        print('-'*70)
-        print('')
-        print('\tVx = {:.2} m/s\t\t Left wheel = {:.4} rpm'.format(cmd_vel.linear.x, result[0]*30/np.pi))
-        print('\tVy = {:.2} m/s\t\tRight wheel = {:.4} rpm'.format(cmd_vel.linear.y, result[1]*30/np.pi))
-        print('\t ω = {} deg/s'.format(cmd_vel.angular.z))
-        print('')
-        print('-'*70)
-        print('')
-        #print('Key pressed = ', current_key)
-
 if __name__ == '__main__':
     rospy.init_node("model_node", anonymous=True)
-    rospy.loginfo('>> STATUS: Initialize \"model\" node')
+    rospy.loginfo('>> MODEL NODE SAYS: node initialized.')
     velocity_publisher()
     rospy.spin()

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <!-- Navigation Nodes -->
+
+    <node
+        name="model_node"
+        pkg="kobuki_control"
+        type="kobuki_model.py"
+        output="screen"
+    />
+
+    <node
+        name="controller"
+        pkg="kobuki_control"
+        type="kobuki_controller.py"
+        output="screen"
+    />
+
+    <node
+        name="read_pose"
+        pkg="kobuki_control"
+        type="read_pose.py"
+        output="screen"
+    />
+
+    <node
+        name="reference_manager"
+        pkg="kobuki_control"
+        type="reference_manager.py"
+        output="screen"
+    />
+
+    <node
+        name="reference_listener"
+        pkg="kobuki_control"
+        type="reference_listener.py"
+        output="screen"
+    />
+
+</launch>
