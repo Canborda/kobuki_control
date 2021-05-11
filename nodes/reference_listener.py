@@ -10,11 +10,11 @@ class reference_listener:
 
         # Publisher
         self.pub_pose = rospy.Publisher("/add_reference_topic", Pose2D, queue_size=20)
-        self.info = rospy.Publisher("/info_topic", String, queue_size=20)
+        self.pub_info = rospy.Publisher("/info_topic", String, queue_size=20)
 
         rospy.loginfo('>> REFERENCE LISTENER SAYS: Enter reference points (x,y)')
-        self.info.publish('------------------------------------------------')
-        self.info.publish('>> REFERENCE LISTENER SAYS: new session started.')
+        self.pub_info.publish('------------------------------------------------')
+        self.pub_info.publish('>> REFERENCE LISTENER SAYS: new session started.')
 
         while True:
             ref = input('>> ')
@@ -41,6 +41,7 @@ class reference_listener:
             pose_ref.x = float(point_list[1])
             pose_ref.y = float(point_list[2])
             self.pub_pose.publish(pose_ref)
+            rospy.sleep(0.2)
 
     def saved_routine_1(self):
         ref =  '(-1.0,0.0) (-3.5,0.0) (-3.5,3.5) (1.5,3.5) (1.5,-1.5) (3.5,-1.5) '

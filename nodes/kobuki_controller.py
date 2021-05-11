@@ -1,9 +1,8 @@
 #!/usr/bin/python3
 
 import rospy
-from geometry_msgs.msg import Twist
-from geometry_msgs.msg import Pose2D
-from std_msgs.msg import Bool, String
+from geometry_msgs.msg import Twist, Pose2D
+from std_msgs.msg import Bool, String, Float32MultiArray
 
 import numpy as np
 
@@ -32,7 +31,7 @@ class controller:
         # Publisher
         self.pub_flag = rospy.Publisher("/next_pose_flag_topic", Bool, queue_size=10)
         self.pub_velocity = rospy.Publisher("/velocity_topic", Twist, queue_size=10)
-        self.pub_error = rospy.Publisher("/error_topic", String, queue_size=10)
+        self.pub_error = rospy.Publisher("/error_topic", Float32MultiArray, queue_size=10)
         
         self.info = rospy.Publisher("/info_topic", String, queue_size=20)
 
@@ -68,14 +67,16 @@ class controller:
             Vx = 0.0
             Wz = 0.0
 
-        # Send message
+        # Publish velocity
         msg = Twist()
         msg.linear.x = Vx
         msg.angular.z = Wz
         self.pub_velocity.publish(msg)
 
-        self.pub_error.publish('error_x: {:.5f} error_y: {:.5f} error_pos: {:.5f} error_theta: {:.5f}'
-        .format(error.x, error.y, error_pos, error.theta))
+        # Publish error
+        error_msg = Float32MultiArray()
+        error_msg.data = [error.x, error.y, error_pos, error.theta]
+        self.pub_error.publish(error_msg)
 
 if __name__ == '__main__':
     rospy.init_node("kobuki_controller_node", anonymous=True)
