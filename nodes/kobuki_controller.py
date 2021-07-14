@@ -13,9 +13,11 @@ class controller:
         # PARAMS
         self.MIN_ERROR = 0.1        # Minimum accepted error to change reference
         self.MIN_STOP = 0.01        # Minimum accepted error to stop robot
+        self.MIN_ERROR_FLAG = 0.2   # Minimum error to restart asking references
         self.V_C = 0.3              # Linear cruise velocity (m/s)
         self.W_C = 60               # Angular cruise velocity (deg/s)
 
+        self.error_flag = True      # Flag to restart asking references
         self.reference = Pose2D()
 
         # Initial reference
@@ -58,12 +60,19 @@ class controller:
         # Angular controller
         Wz = 2*self.W_C / ( 1 + np.exp(-error.theta/5) ) - self.W_C
         
+        # Wait flag for ask new reference
+        if error_pos > self.MIN_ERROR_FLAG:     # Must be MIN_ERROR_FLAG > MIN_ERROR
+            self.error_flag = True
+
         # Ask for new reference
         if error_pos < self.MIN_ERROR:
-            self.pub_flag.publish(True)
+            if self.error_flag:
+                self.pub_flag.publish(True)
+                self.error_flag = False
 
         # Stop
         if error_pos < self.MIN_STOP:
+            self.error_flag = True
             Vx = 0.0
             Wz = 0.0
 
